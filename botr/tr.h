@@ -1,0 +1,93 @@
+#ifndef TR_H
+#define TR_H
+
+#include <tiams.h>
+
+#define NUM_STRINGS 62
+
+#define S_NEW_GAME         (OO_FIRST_APP_STRING + 0)
+#define S_HIGHSCORE_MENU   (OO_FIRST_APP_STRING + 1)
+#define S_OPTIONS_MENU     (OO_FIRST_APP_STRING + 2)
+#define S_EXTRAS           (OO_FIRST_APP_STRING + 3)
+#define S_SAVE_HIGHSCORE   (OO_FIRST_APP_STRING + 4)
+#define S_LOAD_HIGHSCORE   (OO_FIRST_APP_STRING + 5)
+#define S_HELP_MENU        (OO_FIRST_APP_STRING + 6)
+#define S_ABOUT_MENU       (OO_FIRST_APP_STRING + 7)
+
+#define S_GAME_MODE        (OO_FIRST_APP_STRING + 8)
+#define S_GRID_SIZE        (OO_FIRST_APP_STRING + 9)
+#define S_UNDO             (OO_FIRST_APP_STRING + 10)
+#define S_OPTIONS_TITLE    (OO_FIRST_APP_STRING + 11)
+
+#define S_CLASSIC          (OO_FIRST_APP_STRING + 12)
+#define S_UNICORN          (OO_FIRST_APP_STRING + 13)
+
+#define S_2X2              (OO_FIRST_APP_STRING + 14)
+#define S_3X3              (OO_FIRST_APP_STRING + 15)
+#define S_4X4              (OO_FIRST_APP_STRING + 16)
+
+#define S_DISABLED         (OO_FIRST_APP_STRING + 17)
+#define S_ENABLED          (OO_FIRST_APP_STRING + 18)
+
+#define S_CHOOSE           (OO_FIRST_APP_STRING + 19)
+#define S_YOU_WIN_1        (OO_FIRST_APP_STRING + 20)
+
+#define S_KEEP_GOING       (OO_FIRST_APP_STRING + 21)
+#define S_END_GAME         (OO_FIRST_APP_STRING + 22)
+
+#define S_WIN_END_1        (OO_FIRST_APP_STRING + 23)
+#define S_WIN_END_2        (OO_FIRST_APP_STRING + 24)
+#define S_YOU_WIN_2        (OO_FIRST_APP_STRING + 25)
+
+#define S_GAME_OVER        (OO_FIRST_APP_STRING + 26)
+#define S_GAME_OVER_TITLE  (OO_FIRST_APP_STRING + 27)
+
+#define S_NAME             (OO_FIRST_APP_STRING + 28)
+#define S_NEW_HIGHSCORE    (OO_FIRST_APP_STRING + 29)
+
+#define S_CHOOSE_1         (OO_FIRST_APP_STRING + 30)
+#define S_GAME_OVER_UNDO   (OO_FIRST_APP_STRING + 31)
+
+#define S_WIN_END_UNDO_1   (OO_FIRST_APP_STRING + 32)
+#define S_WIN_END_UNDO_2   (OO_FIRST_APP_STRING + 33)
+#define S_CHOOSE_2         (OO_FIRST_APP_STRING + 34)
+#define S_YOU_WIN_3        (OO_FIRST_APP_STRING + 35)
+
+#define S_CHOOSE_UNDO      (OO_FIRST_APP_STRING + 36)
+#define S_CHOOSE_END_GAME  (OO_FIRST_APP_STRING + 37)
+
+#define S_PASSWORD         (OO_FIRST_APP_STRING + 38)
+#define S_READY_FOR_ACTION (OO_FIRST_APP_STRING + 39)
+
+#define S_NO_NAME          (OO_FIRST_APP_STRING + 40)
+
+#define S_HIGHSCORE_TITLE  (OO_FIRST_APP_STRING + 41)
+
+#define S_BOTR             (OO_FIRST_APP_STRING + 42)
+#define S_SCORE            (OO_FIRST_APP_STRING + 43)
+#define S_BEST             (OO_FIRST_APP_STRING + 44)
+#define S_UNDOS            (OO_FIRST_APP_STRING + 45)
+
+#define S_GAME_OVER_BOX    (OO_FIRST_APP_STRING + 46)
+
+#define S_SAVE_SUCCESS     (OO_FIRST_APP_STRING + 47)
+#define S_SAVE_FAILURE     (OO_FIRST_APP_STRING + 48)
+#define S_SAVE_SUCCESS_MSG (OO_FIRST_APP_STRING + 49)
+#define S_SAVE_FAILURE_MSG (OO_FIRST_APP_STRING + 50)
+
+#define S_LOAD_SUCCESS     (OO_FIRST_APP_STRING + 51)
+#define S_LOAD_FAILURE     (OO_FIRST_APP_STRING + 52)
+#define S_LOAD_SUCCESS_MSG (OO_FIRST_APP_STRING + 53)
+#define S_LOAD_FAILURE_MSG (OO_FIRST_APP_STRING + 54)
+
+#define S_HELP_TITLE       (OO_FIRST_APP_STRING + 55)
+#define S_HELP_MESSAGE     (OO_FIRST_APP_STRING + 56)
+
+#define S_ABOUT_TITLE      (OO_FIRST_APP_STRING + 57)
+#define S_ABOUT_NORMAL     (OO_FIRST_APP_STRING + 58)
+#define S_ABOUT_DEVEL      (OO_FIRST_APP_STRING + 59)
+
+#define S_DUKE_NUKEM       (OO_FIRST_APP_STRING + 60)
+#define S_DUKE_INSULT      (OO_FIRST_APP_STRING + 61)
+
+#endif
