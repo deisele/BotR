@@ -1,5 +1,9 @@
 #include <tiams.h>
-#include "../translations/lang_de.h"
+#define STRINGIFY_AUX(a) #a
+#define STRINGIFY(a) STRINGIFY_AUX(a)
+#define CONCAT_AUX(a, b) a##b
+#define CONCAT(a, b) CONCAT_AUX(a, b)
+#include STRINGIFY(CONCAT(../translations/, TRANSLATION_FILE))
 #include "../botr/tr.h"
 #include "../botr/string_frame_builder.h"
 
@@ -30,7 +34,7 @@ ENDFRAME
 static pFrame appframe = (pFrame)&localizer_app_frame;
 
 // Set target_app to the internal name of the app which this localizer will hook into. This is the same name described in section 7.1.3.2. Internal Application Name.
-unsigned char const target_app[] = "Blocks";
+unsigned char const target_app[] = "blocks";
 
 /*
 This little FRAME is hooked ahead of the target application's frame. It accomplishes a couple of things:
@@ -71,7 +75,7 @@ static void main (pFrame self, PEvent e) {
 
 		case CM_INSTALL:
 		case CM_UNPACK:
-			localize (0 /*self*/, XR_stringPtr(XR_NativeLanguage));
+			localize (0 /*self*/, XR_stringPtr (XR_NativeLanguage));
 			break;
 	}
 }
@@ -91,7 +95,7 @@ static void observer (pFrame self, PEvent e) {
 		case CM_UNPACK:
 			// Pass the event on to the target application before applying the localizer hook.
 			AppProcessEvent (super, e);
-			localize (0 /*self*/, XR_stringPtr(XR_NativeLanguage));
+			localize (0 /*self*/, XR_stringPtr (XR_NativeLanguage));
 			break;
 
 		case CM_UNINSTALL:
@@ -109,7 +113,7 @@ static void observer (pFrame self, PEvent e) {
 /*
 If requested language matches the language we know, hook over the target application
 
-WARNING: In the example from the manual the first parameter 'self' was of type pFrame (4 byte) -- the correct type is AppID (2 byte)
+WARNING: In the example from the manual the first parameter 'self' was of type pFrame (4 bytes) -- the correct type is AppID (2 bytes)
 */
 
 static BOOL localize (AppID self, const char *requested_lang) {
@@ -124,7 +128,7 @@ static BOOL localize (AppID self, const char *requested_lang) {
 /*
 Unhook from the target application if we have anything to unhook
 
-WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 byte) -- the correct type is AppID (2 byte)
+WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 bytes) -- the correct type is AppID (2 bytes)
 */
 
 static void unlocalize (AppID self) {
@@ -138,12 +142,12 @@ static void unlocalize (AppID self) {
 /*
 We have just been notified that a new application was installed. Is it our target application? If so, apply our localization to it.
 
-WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 byte) -- the correct type is AppID (2 byte)
+WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 bytes) -- the correct type is AppID (2 bytes)
 */
 
 static void notice_install (AppID self, ACB const *pacb) {
-	if (strcmp ((char *)pacb->appHeader->name, (char *)target_app) == 0) {
-		localize (self, XR_stringPtr (XR_NativeLanguage));
+	if (strcmp ((const char *)pacb->appHeader->name, (const char *)target_app) == 0) {
+		localize (0 /*self*/, XR_stringPtr (XR_NativeLanguage));
 	}
 }
 
@@ -151,7 +155,7 @@ static void notice_install (AppID self, ACB const *pacb) {
 /*
 This application can be deleted if the target application does not exist or is not running
 
-WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 byte) -- the correct type is AppID (2 byte)
+WARNING: In the example from the manual the parameter 'self' was of type pFrame (4 bytes) -- the correct type is AppID (2 bytes)
 */
 
 static BOOL can_delete (AppID self) {
