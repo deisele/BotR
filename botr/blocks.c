@@ -11,8 +11,8 @@ Defines
 
 #define SIZE           4
 
-#define VERSION        19                        // Version 1.9
-#define DEVELOPER      1                         // 0: release version, 1: developer version
+#define VERSION        20                        // Version 1.9
+#define DEVELOPER      0                         // 0: release version, 1: developer version
 
 #define UP             1
 #define DOWN           2
@@ -81,8 +81,8 @@ typedef struct {                                 // Struct for a specific game s
 } play_state;
 
 typedef struct {                                 // struct for the complete program state
-	int ready_for_action;                        // 3A5T3R 3GG
-	char key[12];                                // 3A5T3R 3GG
+	int ready_for_action;                        // 3A573R 366
+	char key[12];                                // 3A573R 366
 	highscore highscore_list[NUM_CONFIG_IDS][5]; // five highscore entries in each highscore list
 	long int best_scores[NUM_CONFIG_IDS];        // best score (unrelated to the highscore list)
 	options new_options;                         // new settings of the game. they will be applied when a new game is started
@@ -130,7 +130,7 @@ int can_be_new_highscore_entry (game_state *game_ptr, long int score, int config
 int check_for_duplicate (game_state *game_ptr, highscore *highscore_entry, int config_id);
 void add_to_highscore_list (game_state *game_ptr, highscore *new_highscore_entry, int config_id);
 void show_highscore_dialog (game_state *game_ptr);
-char * translate_no_name (char *name);
+const char * translate_no_name (const char *name);
 
 void draw_game (game_state *game_ptr);
 void draw_update_game (game_state *game_ptr, int undo);
@@ -208,7 +208,7 @@ static WINDOW appW;
 static game_state current_game;
 static const int grid_offset_table[] = {29, 19, 10};
 static const int game_version = VERSION;
-static const int leet_delta[10] = {-13, -1, 12, -7, 3, 0, 2, -9, 10, -111}; // 3A5T3R 3GG
+static const int leet_delta[10] = {-13, -1, 12, -7, 3, 0, 2, -9, 10, -111}; // 3A573R 366
 static int leet_i;
 static char leet_char;
 
@@ -422,7 +422,7 @@ static void AP_app (pFrame self, PEvent e) {
 			WinActivate (&appW);
 			draw_game (current_game_ptr);
 
-			// 3A5T3R 3GG
+			// 3A573R 366
 			leet_i = 0;
 			leet_char = 114;
 			break;
@@ -448,6 +448,10 @@ static void AP_app (pFrame self, PEvent e) {
 						current_game_ptr->undos_left++;
 					}
 					current_game_ptr->play_states[current_game_ptr->undo_array_index].game_over = game_over (current_game_ptr);
+					if (current_game_ptr->play_states[current_game_ptr->undo_array_index].won == 0) {
+						current_game_ptr->play_states[current_game_ptr->undo_array_index].won = game_won (current_game_ptr);
+					}
+					current_game_ptr->play_states[current_game_ptr->undo_array_index].game_over = game_over (current_game_ptr);
 					draw_update_game (current_game_ptr, NORMAL_MOVE); // Update the grid on the screen
 					current_game_ptr->undos_left_old = current_game_ptr->undos_left;
 				} else {
@@ -455,12 +459,6 @@ static void AP_app (pFrame self, PEvent e) {
 				}
 
 				set_merge_info_null (current_game_ptr); // Reset the merge info
-
-				if (current_game_ptr->play_states[current_game_ptr->undo_array_index].won == 0) {
-					current_game_ptr->play_states[current_game_ptr->undo_array_index].won = game_won (current_game_ptr);
-				}
-
-				current_game_ptr->play_states[current_game_ptr->undo_array_index].game_over = game_over (current_game_ptr);
 
 				// User wins the game
 				if (current_game_ptr->play_states[current_game_ptr->undo_array_index].won == 1 && current_game_ptr->play_states[current_game_ptr->undo_array_index].keep_playing == 0
@@ -470,6 +468,7 @@ static void AP_app (pFrame self, PEvent e) {
 					if (KB_ENTER == Dialog (&dialog_win_notification, -1, -1, NULL, &opts) && opts == 1) {
 						current_game_ptr->play_states[current_game_ptr->undo_array_index].keep_playing = 1;
 					} else {
+						draw_game_over (current_game_ptr, grid_offset_table[current_game_ptr->current_options.size - 2]);
 						current_game_ptr->play_states[current_game_ptr->undo_array_index].game_over = 1;
 						current_game_ptr->undo_game_over = 1;
 						check_and_add_to_highsore_list (current_game_ptr);
@@ -522,13 +521,13 @@ static void AP_app (pFrame self, PEvent e) {
 					}
 				}
 
-			} else if ((key == KB_DELETE) && (current_game_ptr->current_options.undo == 1) && current_game_ptr->undo_game_over == 0 && current_game_ptr->undos_left > 0) {
+			} else if (key == KB_DELETE && current_game_ptr->current_options.undo == 1 && current_game_ptr->undo_game_over == 0 && current_game_ptr->undos_left > 0) {
 				current_game_ptr->undo_array_index = decrement_undo_index (current_game_ptr->undo_array_index);
 				current_game_ptr->undos_left--;
 				draw_update_game (current_game_ptr, UNDO_MOVE);
 				current_game_ptr->undos_left_old = current_game_ptr->undos_left;
 			} else {
-				// 3A5T3R 3GG
+				// 3A573R 366
 				if (key == leet_char) {
 					leet_char += leet_delta[leet_i];
 					leet_i++;
@@ -930,9 +929,9 @@ Check if the highscore name is "no name" and, if this is the case, translate "no
 Returns the translation of "no name" if the name is "no name" or the unchanged name if not.
 */
 
-char * translate_no_name (char *name) {
+const char * translate_no_name (const char *name) {
 	if (strcmp (name, "no name") == 0) {
-		return XR_stringPtr (S_NO_NAME);
+		return (const char *)XR_stringPtr (S_NO_NAME);
 	} else {
 		return name;
 	}
@@ -991,6 +990,10 @@ void draw_game (game_state *game_ptr) {
 		i++;
 	}
 
+	if (game_ptr->play_states[game_ptr->undo_array_index].game_over == 1) {
+		draw_game_over (game_ptr, grid_offset);
+	}
+
 	if (game_ptr->current_options.undo == 1) {
 		offset = 17;
 	} else {
@@ -1010,10 +1013,6 @@ void draw_game (game_state *game_ptr) {
 		WinStrXY (&appW, 120, 18 + 3 * offset, XR_stringPtr (S_UNDOS));
 		sprintf (out_str, "%i", game_ptr->undos_left);
 		WinStr (&appW, out_str);
-	}
-
-	if (game_ptr->play_states[game_ptr->undo_array_index].game_over == 1) {
-		draw_game_over (game_ptr, grid_offset);
 	}
 }
 
@@ -1053,6 +1052,10 @@ void draw_update_game (game_state *game_ptr, int undo) {
 		i++;
 	}
 
+	if (game_ptr->current_options.undo == 0 && game_ptr->play_states[current_index].game_over == 1) {
+		draw_game_over (game_ptr, grid_offset);
+	}
+
 	if (game_ptr->current_options.undo == 1) {
 		offset = 17;
 	} else {
@@ -1068,10 +1071,6 @@ void draw_update_game (game_state *game_ptr, int undo) {
 	if (game_ptr->current_options.undo == 1 && game_ptr->undos_left_old != game_ptr->undos_left) {
 		sprintf (out_str, "%i  ", game_ptr->undos_left);
 		WinStrXY (&appW, 162, 18 + 3 * offset, out_str);
-	}
-
-	if (game_ptr->current_options.undo == 0 && game_ptr->play_states[current_index].game_over == 1) {
-		draw_game_over (game_ptr, grid_offset);
 	}
 }
 
@@ -1174,7 +1173,7 @@ void draw_game_over (game_state *game_ptr, int grid_offset) {
 	int x;
 	int y;
 
-	center = grid_offset + (game_ptr->current_options.size * 19) / 2;
+	center = grid_offset + (game_ptr->current_options.size * 19 + 1) / 2;
 
 	WinStrXY (&appW, center - 29, center - 3, XR_stringPtr (S_GAME_OVER_BOX));
 
